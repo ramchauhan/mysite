@@ -1,0 +1,60 @@
+{% extends base.html" %}
+{% block content %}
+
+ <!-- Messages  -->
+        {% if message %}
+        <ul class="messages">
+            {% for message in message %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
+
+<div class="span12">
+
+		<ul>
+
+            <div class="title"><h3>{{ post.title }}</h3></div>
+            <ul>
+                <div class="time">{{ post.created }}</div>
+                <div class="body">{{ post.body }}</div>
+            </ul>
+			<br/>
+
+			{% if comment %}
+    			<h4>Comments:</h4>
+			{% endif %}
+			
+			<form action="{% url 'blog.views.delete_comment' post.pk %}" method="POST">
+				{% csrf_token %}
+            	{% for comment in comment %}
+                	<div class="comment">
+                    	<div class="time">{{ comment.created }} | {{ comment.author }}</div>
+                    	<div class="body">{{ comment.body|linebreaks }}</div>
+                    	{% if user.is_staff %}
+                        	<input type="checkbox" name="delete" value="{{ comment.pk }}">
+                        	<a href="{% url 'blog.views.delete_comment' post.pk comment.id %}">delete</a>
+                    	{% endif %}
+                	</div>
+            	{% endfor %}
+				{% if user.is_staff and comment %}
+                	<p><input type="submit" value="Delete all selected"></p>
+                	<br />
+            	{% endif %}
+			</form>
+
+			<div id="addc">Add a comment</div>
+			
+			<!-- Comment form  -->
+			<form action="{% url 'blog.views.add_comment' post.pk %}" method="POST">{% csrf_token %}
+    			<div id="cform">
+        			Name: {{ form.author }}
+        			<p>{{ form.body|linebreaks }}</p>
+   				</div>
+    			<div id="submit"><input type="submit" value="Submit"></div>
+			</form>
+		</ul>
+</div>
+{% endblock %}
