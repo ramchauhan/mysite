@@ -1,11 +1,19 @@
 {% extends "base.html" %}
+{% load request_tags %}
 {% block sidebar %}
-    <style type="text/css">
+    <style tyep="text/css">
         #sidebar { float: right; border: 1px dotted #ccc; padding: 4px; }
         a { margin-left: 15px; }
     </style>
+    <div class="test">
+    {% http_to_https %}
+      hello how are you? what are you doing?
+      <script type="text/javascript" src="https://google.com"></script>
+      <script type="text/javascript" src="http://abc.com"></script>
+    {% endhttp_to_https %}
+    </div>
     <div id="sidebar">
-        Monthly Archive
+        Monthly Archive{% change_request %}
         <p>
         {% for month in months %}
           {% ifchanged month.0 %} {{ month.0 }} <br /> {% endifchanged %}
@@ -28,7 +36,7 @@
                     <div class="time">{{ post.created }}</div>
                     <div class="body">{{ post.body|linebreaks }}</div>
                     <div class="commentlink">
-                        <a href="{% url 'blog.views.post' post.pk %}">Comments({{ post.comment_set.count }})</a>
+                       {% comment %} <a href="{% url 'blog.views.post' post.pk %}">Comments({{ post.comment_set.count }})</a>{% endcomment %}
                     </div>
                 </ul>
             {% endfor %}
@@ -38,7 +46,6 @@
                     <div class="time">{{ post.created }}</div>
                     <div class="body">{{ post.body|linebreaks }}</div>
                     <div class="commentlink">
-                        <a href="{% url 'blog.views.post' post.pk %}">Comments({{ post.comment_set.count }})</a>
                     </div>
                 </ul>
             {% endfor %}
@@ -46,7 +53,7 @@
             
         </ul>
         
-
+	{% change_request %}
         <!-- Next/Prev page links  -->
         {% if not archive and posts.object_list and posts.paginator.num_pages > 1 %}
         <ul>

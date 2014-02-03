@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from core.models import Post, Comment
 from core.forms import CommentForm
-
+from django.template import RequestContext
 
 import time
 from calendar import month_name
@@ -26,7 +26,7 @@ def main(request):
     except (InvalidPage, EmptyPage):
         posts = paginator.page(paginator.num_pages) 
         
-    return render_to_response("blog/list.html", dict(posts=posts, user=request.user))
+    return render_to_response("blog/list.html", dict(posts=posts, user=request.user), context_instance=RequestContext(request))
 
 
 def post(request, pk):

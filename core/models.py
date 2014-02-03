@@ -32,3 +32,4 @@ class Comment(models.Model):
         if "notify" in kwargs: del kwargs["notify"]
         super(Comment, self).save(*args, **kwargs)
 
+
