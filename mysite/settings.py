@@ -66,7 +66,7 @@ MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(BASE_DIR, '../staticfiles/')
 STATIC_URL = '/static/'
 
 
@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'gunicorn'
 )
 
 MIDDLEWARE_CLASSES = (

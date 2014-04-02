@@ -3,6 +3,54 @@ from django.db import models
 from django.core.mail import send_mail
 
 
+
+
+class HomePageTitle(models.Model):
+    title                    = models.CharField(max_length=100)
+    created                  = models.DateTimeField(auto_now_add=True)
+    def __unicode__(self):
+        return self.title
+
+
+class BannerImages(models.Model):
+    image                    = models.ImageField(upload_to='banner_images')
+    title                    = models.CharField(max_length=100)
+    image_alt_text           = models.CharField(max_length=150, blank=True, null=True)
+    image_description        = models.CharField(max_length=150, blank=True, null=True)
+    image_caption            = models.CharField(max_length=150, blank=True, null=True)
+    
+    
+    def __unicode__(self):
+        return self.title
+
+class ClassStandard(models.Model):
+    title                     = models.CharField(max_length=100, primary_key=True)
+    content                   = models.TextField()
+    image                     = models.ImageField(upload_to='class_images')
+    image_title               = models.CharField(max_length=300, blank=True, null=True)
+    image_alt_text            = models.CharField(max_length=300, blank=True, null=True)
+    image_description         = models.CharField(max_length=300, blank=True, null=True)
+    
+    
+    
+    def __unicode__(self):
+        return self.title
+    
+
+class AllQuestion(models.Model):
+    question = models.TextField()
+    option1 = models.TextField()
+    option2 = models.TextField()
+    option3 = models.TextField()
+    classquestion = models.ForeignKey(ClassStandard)
+
+    def __unicode__(self):
+	return self.question
+    
+
+
+
+
 class Post(models.Model):
     title = models.CharField(max_length=60)
     body = models.TextField()

@@ -3,7 +3,11 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 #from django.core.context_processors import cs
 from django.core.context_processors import csrf
-from core.models import Post, Comment
+from django.views.generic import ListView
+
+
+from core.models import Post, Comment, BannerImages, ClassStandard, AllQuestion
+from mysite.settings import MEDIA_URL
 from core.forms import CommentForm
 from django.template import RequestContext
 
@@ -94,3 +98,31 @@ def month(request, year, month):
     posts = Post.objects.filter(created__year=year, created__month=month)
     return render_to_response("blog/list.html", dict(post_list=posts, user=request.user,
                                                 months=mkmonth_lst(), archive=True))
+
+
+
+## Here is the code by classbased views
+
+class HomePageView(ListView):
+    model = BannerImages
+    template_name = "core/homepage/homepage.html"
+
+    def get_context_data(self, **kwargs):
+	context = super(HomePageView, self).get_context_data(**kwargs)
+        context['class_data'] = ClassStandard.objects.all()
+        context['all_question'] = AllQuestion.objects.all()
+	context['media_url'] = MEDIA_URL
+	return context
+
+
+class AllQuestionView(ListView):
+    model = AllQuestion
+    template_name = "core/allquestions.html"
+    context_object_name = "question"
+   
+    def get_context_data(self, **kwargs):
+	context = super(AllQuestionView, self).get_context_data(**kwargs)
+	context['media_url'] = MEDIA_URL
+	return context
+
+	 
