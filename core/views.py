@@ -108,6 +108,7 @@ class HomePageView(ListView):
     template_name = "core/homepage/homepage.html"
 
     def get_context_data(self, **kwargs):
+        import pdb; pdb.set_trace()
 	context = super(HomePageView, self).get_context_data(**kwargs)
         context['class_data'] = ClassStandard.objects.all()
         context['all_question'] = AllQuestion.objects.all()
@@ -116,6 +117,7 @@ class HomePageView(ListView):
 
 
 class AllQuestionView(ListView):
+    import pdb; pdb.set_trace()
     model = AllQuestion
     template_name = "core/allquestions.html"
     context_object_name = "question"
